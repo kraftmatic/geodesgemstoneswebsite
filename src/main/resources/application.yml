@@ -9,3 +9,8 @@ logging:
 spring:
   thymeleaf:
     cache: false
+    mode: LEGACYHTML5
+  datasource:
+    url: jdbc:mysql://localhost:3306/geodesgemstones
+    username: root
+    driver-class-name: com.mysql.jdbc.Driver
