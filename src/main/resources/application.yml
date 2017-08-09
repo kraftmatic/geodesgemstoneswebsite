@@ -9,3 +9,19 @@ logging:
 spring:
   thymeleaf:
     cache: false
+    mode: LEGACYHTML5
+  datasource:
+    url: jdbc:mysql://localhost:3306/geodesgemstones
+    username: root
+    driver-class-name: com.mysql.jdbc.Driver
+
+twitter:
+  oauth:
+    appid: 3Butd2tOyM9pNoQqMA321U1zL
+    appsecret: N076uOlEKakKTjfQaOvtnsw3JexjFeQHWygui5BsZhckY6WQ3D
+    accesstoken: 895126013352345600-y4l3PsdtMMAQHLnDg95tfRHDKWlnXs4
+    accesssecret: uJHMHRlMy4Vuze2OLrgT5EACxCOifW05gS9vga5Pzv9vg
+
+security:
+  username: user
+  password: password
