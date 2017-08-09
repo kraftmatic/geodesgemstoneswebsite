@@ -1,9 +1,13 @@
 package com.kraftmatic.geodesgemstones.models;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
+import java.io.File;
 import java.util.Date;
 
 /**
@@ -24,6 +28,8 @@ public class Article {
     private String submitter;
     @Column(nullable = false, name = "content")
     private String content;
+    @Transient
+    private MultipartFile image;
 
     public Article() {
         date = new Date();
@@ -55,4 +61,11 @@ public class Article {
         this.content = content;
     }
 
+    public MultipartFile getImage() {
+        return image;
+    }
+
+    public void setImage(MultipartFile image) {
+        this.image = image;
+    }
 }
