@@ -25,3 +25,7 @@ twitter:
 security:
   username: user
   password: password
+
+features:
+  social-media:
+    enabled: true

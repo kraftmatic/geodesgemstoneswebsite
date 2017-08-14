@@ -2,7 +2,6 @@ package com.kraftmatic.geodesgemstones.service.impl;
 
 import com.kraftmatic.geodesgemstones.models.Article;
 import com.kraftmatic.geodesgemstones.service.TwitterService;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
