@@ -20,7 +20,6 @@ public class ArticleServiceImpl implements ArticleService{
 
     @Override
     public void saveArticle(Article article) {
-        articleRepository.save(article);
     }
 
     @Override
