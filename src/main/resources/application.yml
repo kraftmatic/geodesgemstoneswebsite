@@ -11,8 +11,9 @@ spring:
     cache: false
     mode: LEGACYHTML5
   datasource:
-    url: jdbc:mysql://localhost:3306/geodesgemstones
-    username: root
+    url: jdbc:mysql://us-cdbr-iron-east-05.cleardb.net:3306/heroku_cdf390c6cfbd684
+    username: b104ce1dfd148f
+    password: 9a0f751e
     driver-class-name: com.mysql.jdbc.Driver
 
 twitter:
