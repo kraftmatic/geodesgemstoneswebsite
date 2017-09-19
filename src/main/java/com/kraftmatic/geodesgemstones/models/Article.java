@@ -7,12 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
-import java.io.File;
 import java.util.Date;
-
-/**
- * Created by nkraftor on 2/9/17.
- */
 
 @Entity
 public class Article {
@@ -28,6 +23,8 @@ public class Article {
     private String submitter;
     @Column(nullable = false, name = "content")
     private String content;
+    @Column(nullable = true, name = "url")
+    private String url;
     @Transient
     private MultipartFile image;
 
@@ -67,5 +64,13 @@ public class Article {
 
     public void setImage(MultipartFile image) {
         this.image = image;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

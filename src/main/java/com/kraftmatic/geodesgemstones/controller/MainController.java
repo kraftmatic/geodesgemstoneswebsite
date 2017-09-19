@@ -2,13 +2,18 @@ package com.kraftmatic.geodesgemstones.controller;
 
 import com.kraftmatic.geodesgemstones.models.Article;
 import com.kraftmatic.geodesgemstones.service.ArticleService;
+import com.kraftmatic.geodesgemstones.service.ImageService;
 import com.kraftmatic.geodesgemstones.service.TwitterService;
+import com.kraftmatic.geodesgemstones.util.TokenHolder;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import twitter4j.TwitterException;
 
 import java.io.IOException;
@@ -22,6 +27,12 @@ public class MainController {
 	@Autowired
     TwitterService twitterService;
 
+	@Autowired
+	ImageService imageService;
+
+	@Autowired
+	TokenHolder tokenHolder;
+
 	@RequestMapping("/")
 	public String root() {
 		return "redirect:/index";
@@ -34,28 +45,63 @@ public class MainController {
 		return "index";
 	}
 
-	@RequestMapping("/user/index")
+	@RequestMapping("/admin")
 	public String userIndex(Model model) {
+
+		if (StringUtils.isBlank(tokenHolder.getAccessToken())){
+			return "redirect:" + "http://api.imgur.com/oauth2/authorize?client_id=7872643312136fd&response_type=token";
+		}
+
 		model.addAttribute("article", new Article());
-		return "user/index";
+		return "admin";
 	}
+
+	@RequestMapping("/user/index/token")
+	public String userIndexToken(Model model,
+                                 @RequestParam("access_token") String accessToken,
+                                 @RequestParam("refresh_token") String refreshToken) {
+
+		captureTokens(accessToken, refreshToken);
+        model.addAttribute("article", new Article());
+        return "admin";
+	}
+
+	@RequestMapping("/token-capture")
+    public String captureToken(){
+	    return "token-capture";
+    }
 
 
 	@RequestMapping(path = "admin/submitArticle", method = RequestMethod.POST)
 	public String articleSubmit(@ModelAttribute Article article){
 
-        try {
-            if (article.getImage() == null) {
-                twitterService.postTweet(article.getContent());
-            } else {
-                twitterService.postImage(article);
-            }
-        } catch (TwitterException | IOException e) {
-            e.printStackTrace();
-        }
-        articleService.saveArticle(article);
+//        try {
+//            if (article.getImage() == null) {
+//                twitterService.postTweet(article.getContent());
+//            } else {
+//                twitterService.postImage(article);
+//            }
+//        } catch (TwitterException | IOException e) {
+//            e.printStackTrace();
+//        }
+//        articleService.saveArticle(article);
+
+		try {
+			imageService.storeImage(article.getImage());
+		} catch (IOException e) {
+			// shit.
+		}
+
 		return "user/index";
 	}
+
+	private void captureTokens(String accessToken, String refreshToken) {
+		if (StringUtils.isNotBlank(accessToken) || StringUtils.isNotBlank(refreshToken)){
+			tokenHolder.setAccessToken(accessToken);
+			tokenHolder.setRefreshToken(refreshToken);
+		}
+	}
+
 	/**
 	 *  Login Methods
 	 */

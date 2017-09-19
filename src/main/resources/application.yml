@@ -11,9 +11,8 @@ spring:
     cache: false
     mode: LEGACYHTML5
   datasource:
-    url: jdbc:mysql://us-cdbr-iron-east-05.cleardb.net:3306/heroku_cdf390c6cfbd684
-    username: b104ce1dfd148f
-    password: 9a0f751e
+    url: jdbc:mysql://localhost:3306/geodesgemstones
+    username: root
     driver-class-name: com.mysql.jdbc.Driver
 
 twitter:
@@ -30,3 +29,9 @@ security:
 features:
   social-media:
     enabled: true
+
+imgur:
+  endpoint:
+    imageupload: https://api.imgur.com/3/image
+  clientid: 7872643312136fd
+  clientsecret: 268fe7d55070da46e5863714ae45dc2c299716d7
