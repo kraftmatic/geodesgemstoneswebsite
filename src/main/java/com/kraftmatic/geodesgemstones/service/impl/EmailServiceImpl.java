@@ -27,9 +27,8 @@ public class EmailServiceImpl implements EmailService{
         HttpResponse<JsonNode> request = Unirest.post("https://api.mailgun.net/v3/" + mailgunDomain + "/messages")
                 .basicAuth("api", mailgunApi)
                 .queryString("from", email.getName() + " " +email.getEmail())
-                .queryString("to", "geodesandgemstones@hotmail.com")
-                .queryString("cc", "geodesgemstones@gmail.com")
-                .queryString("subject", mailgunDomain)
+                .queryString("to", "geodesgemstones@gmail.com")
+                .queryString("subject", "Website Message")
                 .queryString("text", email.getMessage())
                 .asJson();
     }
