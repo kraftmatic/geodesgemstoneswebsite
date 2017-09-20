@@ -11,3 +11,30 @@ p.error {
 div.logout {
     float: right;
 }
+
+.card {
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.img-card {
+    border-radius: 10px;
+    border: solid;
+    border-width: 1px;
+    border-color: black;
+}
+
+.auto-margin {
+    margin: auto;
+}
+
+.btn {
+    margin: 10px;
+}
+
+.info-box {
+    padding: 10px;
+    background-color: aliceblue;
+    box-shadow: 5px 5px dodgerblue;
+}

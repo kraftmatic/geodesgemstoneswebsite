@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Admin Panel</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script>
+          $( function() {
+            $( "#tabs" ).tabs();
+          } );
+          </script>
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    </head>
+    <body>
+    <div class="container theme-showcase">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Geodes and Gemstones</h3>
+            </div>
+            <div class="panel-body">
+                Administration panel for Geodes and Gemstones
+            </div>
+        </div>
+
+        <div th:if="${submitSuccess}" class="alert alert-success" role="alert">Photo Submission Successful!</div>
+
+        <div id="tabs">
+            <ul>
+                <li><a href="#tabs-1">Submit Article</a></li>
+                <li><a href="#tabs-2">Submit Photo</a></li>
+            </ul>
+            <div id="tabs-1">
+                <form action="#" th:action="@{/admin/submitArticle}" th:object="${article}" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="socialInputFile">Image File</label>
+                        <input type="file" id="socialInputFile" th:field="*{image}">
+                        <span  class="help-block">Maximum image size is 1 megabyte</span>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">Submitter</span>
+                        <input type="text" class="form-control" placeholder="Name" th:field="*{submitter}">
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon">Message</span>
+                        <textarea rows="4" class="form-control" placeholder="Add text here" th:field="*{content}" />
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon">Link</span>
+                        <input type="text" class="form-control" th:field="*{url}">
+                    </div>
+                    <span id="helpBlock2" class="help-block">An optional url if you want to use this article to share a link.</span>
+                    <br />
+                    <p><input class="btn btn-primary btn-lg" type="submit" value="Submit" /> <input class="btn btn-danger btn-lg" type="reset" value="Reset" /></p>
+                </form>
+            </div>
+            <div id="tabs-2">
+                <form action="#" th:action="@{/admin/submitPhoto}" th:object="${photoSubmit}" method="post" enctype="multipart/form-data">
+
+                    <div class="form-group">
+                        <label for="databaseInputFile">Image File</label>
+                        <input type="file" id="databaseInputFile" th:field="*{image}">
+                        <span  class="help-block">Maximum image size is 1 megabyte</span>
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon">Name</span>
+                        <input type="text" class="form-control"  placeholder="Required" th:field="*{name}">
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon">Category</span>
+                        <input type="text" class="form-control"  th:field="*{category}">
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon">Region</span>
+                        <input type="text" class="form-control" th:field="*{region}">
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon">Color</span>
+                        <input type="text" class="form-control" th:field="*{color}">
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon">Comment</span>
+                        <input type="text" class="form-control" placeholder="Required" th:field="*{comment}">
+                    </div>
+                    <br />
+                    <p><input class="btn btn-primary btn-lg" type="submit" value="Submit" /> <input class="btn btn-danger btn-lg" type="reset" value="Reset" /></p>
+                </form>
+            </div>
+        </div>
+    </div>
+    </body>
+</html>

@@ -3,19 +3,29 @@
     <head>
         <title>Login page</title>
         <meta charset="utf-8" />
-        <link rel="stylesheet" href="/css/main.css" th:href="@{/css/main.css}" />
+        <link rel="stylesheet" href="/css/login.css" th:href="@{/css/login.css}" />
+        <!-- Bootstrap core CSS -->
+        <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	</head>
     <body>
-        <h1>Login page</h1>
-        <p>Example user: user / password</p>
-        <p th:if="${loginError}" class="error">Wrong user or password</p>
-        <form th:action="@{/login}" method="post">
-            <label for="username">Username</label>:
-            <input type="text" id="username" name="username" autofocus="autofocus" /> <br />
-            <label for="password">Password</label>:
-            <input type="password" id="password" name="password" /> <br />
-            <input type="submit" value="Log in" />
-        </form>
-        <p><a href="/index" th:href="@{/index}">Back to home page</a></p>
+
+        <div class="container">
+            <div class="card card-container">
+                <img id="profile-img" class="profile-img-card" src="http://2.bp.blogspot.com/-9tkWnM_O-vY/VR67ijUs6kI/AAAAAAAABSQ/gsOqw2XTqos/s1600/gems%282%29.png" />
+                <p id="profile-name" class="profile-name-card"></p>
+                <p th:if="${loginError}" class="error">Wrong user or password</p>
+                <form th:action="@{/login}" method="post">
+                    <span id="reauth-email" class="reauth-email"></span>
+                    <input type="text" class="max-width" id="username" name="username" placeholder="Username" autofocus="autofocus" >
+                    <input type="password" class="max-width" id="password" name="password"  placeholder="Password" required>
+                    <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Sign in</button>
+                </form><!-- /form -->
+            </div><!-- /card-container -->
+        </div><!-- /container -->
+
+        <!-- Bootstrap core JavaScript -->
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/popper/popper.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
     </body>
 </html>

@@ -89,6 +89,21 @@
 			<artifactId>snakeyaml</artifactId>
 			<version>1.18</version>
 		</dependency>
+		<dependency>
+			<groupId>net.sargue</groupId>
+			<artifactId>mailgun</artifactId>
+			<version>1.4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20170516</version>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -30,3 +30,9 @@ security:
 features:
   social-media:
     enabled: true
+
+imgur:
+  endpoint:
+    imageupload: https://api.imgur.com/3/image
+  clientid: 7872643312136fd
+  clientsecret: 268fe7d55070da46e5863714ae45dc2c299716d7
