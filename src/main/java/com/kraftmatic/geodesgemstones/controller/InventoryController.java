@@ -23,6 +23,6 @@ public class InventoryController {
 
         List<Photo> photos = StreamSupport.stream(repository.findAll().spliterator(), false).collect(Collectors.toList());
         model.addAttribute("photos", photos);
-        return "database/photos";
+        return "photos";
     }
 }
