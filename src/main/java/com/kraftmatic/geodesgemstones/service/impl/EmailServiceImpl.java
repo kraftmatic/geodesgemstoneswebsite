@@ -29,7 +29,7 @@ public class EmailServiceImpl implements EmailService{
                 .queryString("from", email.getName() + " " +email.getEmail())
                 .queryString("to", "geodesandgemstones@hotmail.com")
                 .queryString("cc", "geodesgemstones@gmail.com")
-                .queryString("subject", "Website Message")
+                .queryString("subject", mailgunDomain)
                 .queryString("text", email.getMessage())
                 .asJson();
     }
