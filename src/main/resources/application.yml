@@ -34,5 +34,5 @@ features:
 imgur:
   endpoint:
     imageupload: https://api.imgur.com/3/image
-  clientid: 7872643312136fd
-  clientsecret: 268fe7d55070da46e5863714ae45dc2c299716d7
+  clientid: ed138f9ce6b3305
+  clientsecret: 0e3a03398161ae6e4dba3546804037ccc1cb60ed
