@@ -33,7 +33,7 @@ features:
 
 mailgun:
   api: key-80c164eed9fb231cb99a5d8fc3fb810a
-  domain: sandboxa6e15cb4f57c4eeebead5d852eb1bec2.mailgun.org
+  domain: mg.geodesandgemstones.com
 
 imgur:
   endpoint:
