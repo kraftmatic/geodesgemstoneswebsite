@@ -2,6 +2,7 @@ package com.kraftmatic.geodesgemstones.service.impl;
 
 import com.kraftmatic.geodesgemstones.database.PhotoRepository;
 import com.kraftmatic.geodesgemstones.models.Photo;
+import com.kraftmatic.geodesgemstones.models.PhotoSubmission;
 import com.kraftmatic.geodesgemstones.service.ImageService;
 import com.kraftmatic.geodesgemstones.util.TokenHolder;
 import org.json.JSONObject;
@@ -42,26 +43,32 @@ public class ImageServiceImpl implements ImageService{
     }
 
     @Override
-    public void storeImage(MultipartFile imageFile) throws IOException{
+    public void storeImage(PhotoSubmission photoSubmit) throws IOException{
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + tokenHolder.getAccessToken());
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        String jsonObject = "{ \"image\" : \"" + new String(Base64.getEncoder().encodeToString(imageFile.getBytes())) + "\" }";
+        String jsonObject = "{ \"image\" : \"" + new String(Base64.getEncoder().encodeToString(photoSubmit.getImage().getBytes())) + "\" }";
 
         HttpEntity<String> request = new HttpEntity<String>(jsonObject, headers);
         ResponseEntity<String> response = restTemplate.exchange( imgurEndpoint, HttpMethod.POST, request, String.class);
         JSONObject object = new JSONObject(response.getBody());
-        String url = object.getJSONObject("data").getString("link");
 
-        Photo photo = new Photo();
-        photo.setCategory("test");
-        photo.setComment("test");
-        photo.setUrl(url);
-        photo.setDate(new Date());
-
+        Photo photo = processPhotoInformation(photoSubmit, object);
         repository.save(photo);
 
+    }
+
+    private Photo processPhotoInformation(PhotoSubmission photoSubmit, JSONObject object) {
+        Photo photo = new Photo();
+        photo.setUrl(object.getJSONObject("data").getString("link"));
+        photo.setDate(new Date());
+        photo.setName(photoSubmit.getName());
+        photo.setCategory(photoSubmit.getCategory());
+        photo.setComment(photoSubmit.getComment());
+        photo.setColor(photoSubmit.getColor());
+        photo.setRegion(photoSubmit.getRegion());
+        return photo;
     }
 }

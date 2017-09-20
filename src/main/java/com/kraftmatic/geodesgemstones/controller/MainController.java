@@ -1,6 +1,8 @@
 package com.kraftmatic.geodesgemstones.controller;
 
 import com.kraftmatic.geodesgemstones.models.Article;
+import com.kraftmatic.geodesgemstones.models.Photo;
+import com.kraftmatic.geodesgemstones.models.PhotoSubmission;
 import com.kraftmatic.geodesgemstones.service.ArticleService;
 import com.kraftmatic.geodesgemstones.service.ImageService;
 import com.kraftmatic.geodesgemstones.service.TwitterService;
@@ -53,6 +55,7 @@ public class MainController {
 		}
 
 		model.addAttribute("article", new Article());
+		model.addAttribute("photoSubmit", new PhotoSubmission());
 		return "admin";
 	}
 
@@ -63,6 +66,7 @@ public class MainController {
 
 		captureTokens(accessToken, refreshToken);
         model.addAttribute("article", new Article());
+        model.addAttribute("photoSubmit", new PhotoSubmission());
         return "admin";
 	}
 
@@ -73,26 +77,34 @@ public class MainController {
 
 
 	@RequestMapping(path = "admin/submitArticle", method = RequestMethod.POST)
-	public String articleSubmit(@ModelAttribute Article article){
+	public String articleSubmit(@ModelAttribute("article") Article article){
 
-//        try {
-//            if (article.getImage() == null) {
-//                twitterService.postTweet(article.getContent());
-//            } else {
-//                twitterService.postImage(article);
-//            }
-//        } catch (TwitterException | IOException e) {
-//            e.printStackTrace();
-//        }
-//        articleService.saveArticle(article);
+        try {
+            if (article.getImage() == null) {
+                twitterService.postTweet(article.getContent());
+            } else {
+                twitterService.postImage(article);
+            }
+        } catch (TwitterException | IOException e) {
+            e.printStackTrace();
+        }
+        articleService.saveArticle(article);
 
+
+		return "admin";
+	}
+
+	@RequestMapping(path = "admin/submitPhoto", method = RequestMethod.POST)
+	public String photoSubmit( @ModelAttribute("photoSubmit")PhotoSubmission photoSubmit, Model model){
 		try {
-			imageService.storeImage(article.getImage());
+			imageService.storeImage(photoSubmit);
+            model.addAttribute("submitSuccess", true);
 		} catch (IOException e) {
-			// shit.
+            model.addAttribute("submitSuccess", false);
 		}
-
-		return "user/index";
+        model.addAttribute("article", new Article());
+        model.addAttribute("photoSubmit", new PhotoSubmission());
+        return "admin";
 	}
 
 	private void captureTokens(String accessToken, String refreshToken) {

@@ -31,6 +31,9 @@
                 Administration panel for Geodes and Gemstones
             </div>
         </div>
+
+        <div th:if="${submitSuccess}" class="alert alert-success" role="alert">Photo Submission Successful!</div>
+
         <div id="tabs">
             <ul>
                 <li><a href="#tabs-1">Submit Article</a></li>
@@ -38,6 +41,11 @@
             </ul>
             <div id="tabs-1">
                 <form action="#" th:action="@{/admin/submitArticle}" th:object="${article}" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="socialInputFile">Image File</label>
+                        <input type="file" id="socialInputFile" th:field="*{image}">
+                        <span  class="help-block">Maximum image size is 1 megabyte</span>
+                    </div>
                     <div class="input-group">
                         <span class="input-group-addon">Submitter</span>
                         <input type="text" class="form-control" placeholder="Name" th:field="*{submitter}">
@@ -58,21 +66,37 @@
                 </form>
             </div>
             <div id="tabs-2">
-                <form action="#" th:action="@{/admin/submitPhoto}" th:object="${article}" method="post" enctype="multipart/form-data">
+                <form action="#" th:action="@{/admin/submitPhoto}" th:object="${photoSubmit}" method="post" enctype="multipart/form-data">
 
                     <div class="form-group">
-                        <label for="exampleInputFile">Image File</label>
-                        <input type="file" id="exampleInputFile" th:field="*{image}">
+                        <label for="databaseInputFile">Image File</label>
+                        <input type="file" id="databaseInputFile" th:field="*{image}">
+                        <span  class="help-block">Maximum image size is 1 megabyte</span>
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon">Name</span>
+                        <input type="text" class="form-control"  placeholder="Required" th:field="*{name}">
                     </div>
                     <br />
                     <div class="input-group">
                         <span class="input-group-addon">Category</span>
-                        <input type="text" class="form-control" placeholder="Name" th:field="*{submitter}">
+                        <input type="text" class="form-control"  th:field="*{category}">
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon">Region</span>
+                        <input type="text" class="form-control" th:field="*{region}">
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon">Color</span>
+                        <input type="text" class="form-control" th:field="*{color}">
                     </div>
                     <br />
                     <div class="input-group">
                         <span class="input-group-addon">Comment</span>
-                        <input type="text" class="form-control" placeholder="Name" th:field="*{submitter}">
+                        <input type="text" class="form-control" placeholder="Required" th:field="*{comment}">
                     </div>
                     <br />
                     <p><input class="btn btn-primary btn-lg" type="submit" value="Submit" /> <input class="btn btn-danger btn-lg" type="reset" value="Reset" /></p>
