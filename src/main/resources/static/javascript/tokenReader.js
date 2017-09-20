@@ -6,4 +6,4 @@ while (m = regex.exec(queryString)) {
 }
 
 // Send parsed tokens back to server
-window.open('http://localhost:8080/user/index/token?' + queryString,'_self')
+window.open('https://geodes-and-gemstones.herokuapp.com/user/index/token?' + queryString,'_self')
