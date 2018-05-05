@@ -1,24 +1,27 @@
 package com.kraftmatic.geodesgemstones.controller;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
 import com.kraftmatic.geodesgemstones.models.Article;
-import com.kraftmatic.geodesgemstones.models.Photo;
 import com.kraftmatic.geodesgemstones.models.PhotoSubmission;
 import com.kraftmatic.geodesgemstones.service.ArticleService;
 import com.kraftmatic.geodesgemstones.service.ImageService;
+import com.kraftmatic.geodesgemstones.service.PDFGenerator;
 import com.kraftmatic.geodesgemstones.service.TwitterService;
 import com.kraftmatic.geodesgemstones.util.TokenHolder;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.pdfbox.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import twitter4j.TwitterException;
 
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 
 @Controller
 public class MainController {
@@ -34,6 +37,9 @@ public class MainController {
 
 	@Autowired
 	TokenHolder tokenHolder;
+
+	@Autowired
+	PDFGenerator pdfGenerator;
 
 	@RequestMapping("/")
 	public String root() {
@@ -51,7 +57,7 @@ public class MainController {
 	public String userIndex(Model model) {
 
 		if (StringUtils.isBlank(tokenHolder.getAccessToken())){
-			return "redirect:" + "http://api.imgur.com/oauth2/authorize?client_id=7872643312136fd&response_type=token";
+			return "redirect:" + "https://api.imgur.com/oauth2/authorize?client_id=7872643312136fd&response_type=token";
 		}
 
 		model.addAttribute("article", new Article());
@@ -133,6 +139,15 @@ public class MainController {
 	public String loginError(Model model) {
 		model.addAttribute("loginError", true);
 		return "login";
+	}
+
+	@RequestMapping("/test-pdf")
+	public void testPdf(HttpServletResponse response) throws IOException, DocumentException {
+		pdfGenerator.generateIndexCardPdf();;
+		InputStream inputStream = new FileInputStream("infoCard.pdf");
+		response.setContentType("application/pdf");
+		IOUtils.copy(inputStream, response.getOutputStream());
+		response.flushBuffer();
 	}
 
 }
