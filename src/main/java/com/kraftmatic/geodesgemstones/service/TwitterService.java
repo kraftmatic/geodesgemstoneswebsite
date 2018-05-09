@@ -9,4 +9,6 @@ public interface TwitterService {
 
     void postTweet(String message) throws TwitterException;
     void postImage(Article article) throws TwitterException, IOException;
+
+    void readTweets();
 }

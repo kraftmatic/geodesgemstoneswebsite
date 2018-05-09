@@ -1,8 +1,8 @@
 package com.kraftmatic.geodesgemstones.controller;
 
-import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.kraftmatic.geodesgemstones.models.Article;
+import com.kraftmatic.geodesgemstones.models.Photo;
 import com.kraftmatic.geodesgemstones.models.PhotoSubmission;
 import com.kraftmatic.geodesgemstones.service.ArticleService;
 import com.kraftmatic.geodesgemstones.service.ImageService;
@@ -21,25 +21,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 import twitter4j.TwitterException;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 @Controller
 public class MainController {
 
 	@Autowired
-    ArticleService articleService;
+    private ArticleService articleService;
 
 	@Autowired
-    TwitterService twitterService;
+    private TwitterService twitterService;
 
 	@Autowired
-	ImageService imageService;
+	private ImageService imageService;
 
 	@Autowired
-	TokenHolder tokenHolder;
+	private TokenHolder tokenHolder;
 
 	@Autowired
-	PDFGenerator pdfGenerator;
+	private PDFGenerator pdfGenerator;
 
 	@RequestMapping("/")
 	public String root() {
@@ -141,9 +143,10 @@ public class MainController {
 		return "login";
 	}
 
-	@RequestMapping("/test-pdf")
-	public void testPdf(HttpServletResponse response) throws IOException, DocumentException {
-		pdfGenerator.generateIndexCardPdf();;
+	@RequestMapping("/printCard")
+	public void printCard(HttpServletResponse response, @RequestParam("action") String photoId) throws IOException, DocumentException {
+		Photo photo = imageService.retrievePhotoInfoById(new Long(photoId));
+		pdfGenerator.generateIndexCardPdf(photo.getUrl(), photo.getName(), photo.getRegion(), photo.getCategory(), photo.getComment());
 		InputStream inputStream = new FileInputStream("infoCard.pdf");
 		response.setContentType("application/pdf");
 		IOUtils.copy(inputStream, response.getOutputStream());

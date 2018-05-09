@@ -75,6 +75,7 @@
     </div>
 
     <!-- Modal -->
+    <form action="#" th:action="@{/printCard}" method="get">
     <div th:each="photo : ${photos}" class="modal fade" th:id="${photo.id}" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog img-card" role="document">
             <div class="modal-content">
@@ -98,11 +99,12 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Print Card</button>
+                    <button type="submit" name="action" th:value="${photo.id}" class="btn btn-primary">Print Card</button>
                 </div>
             </div>
         </div>
     </div>
+    </form>
 
 </div>
 

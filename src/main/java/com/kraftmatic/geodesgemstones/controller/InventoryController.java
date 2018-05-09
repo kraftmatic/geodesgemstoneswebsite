@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -21,7 +22,7 @@ public class InventoryController {
     @RequestMapping(path = "/database", method = RequestMethod.GET)
     public String fetchDatabaseItems(Model model){
 
-        List<Photo> photos = StreamSupport.stream(repository.findAll().spliterator(), false).collect(Collectors.toList());
+        List<Photo> photos = StreamSupport.stream(repository.findAll().spliterator(), false).sorted(Comparator.comparing(Photo::getName)).collect(Collectors.toList());
         model.addAttribute("photos", photos);
         return "photos";
     }

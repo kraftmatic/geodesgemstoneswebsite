@@ -42,6 +42,11 @@ public class TwitterServiceImpl implements TwitterService{
         twitter.updateStatus(update);
     }
 
+    @Override
+    public void readTweets() {
+
+    }
+
     private File convert(MultipartFile file) throws IOException
     {
         File convFile = new File(file.getOriginalFilename());
