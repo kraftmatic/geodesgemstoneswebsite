@@ -57,9 +57,8 @@ public class MainController {
 
 	@RequestMapping("/admin")
 	public String userIndex(Model model) {
-
-		if (StringUtils.isBlank(tokenHolder.getAccessToken())){
-			return "redirect:" + "https://api.imgur.com/oauth2/authorize?client_id=7872643312136fd&response_type=token";
+			if (StringUtils.isBlank(tokenHolder.getAccessToken())){
+			return "redirect:" + "https://api.imgur.com/oauth2/authorize?client_id=cb6b427ede1ac44&response_type=token";
 		}
 
 		model.addAttribute("article", new Article());
@@ -72,16 +71,16 @@ public class MainController {
                                  @RequestParam("access_token") String accessToken,
                                  @RequestParam("refresh_token") String refreshToken) {
 
-		captureTokens(accessToken, refreshToken);
+	captureTokens(accessToken, refreshToken);
         model.addAttribute("article", new Article());
         model.addAttribute("photoSubmit", new PhotoSubmission());
         return "admin";
 	}
 
 	@RequestMapping("/token-capture")
-    public String captureToken(){
-	    return "token-capture";
-    }
+	public String captureToken(){
+		return "token-capture";
+    	}
 
 
 	@RequestMapping(path = "admin/submitArticle", method = RequestMethod.POST)
@@ -97,7 +96,6 @@ public class MainController {
             e.printStackTrace();
         }
         articleService.saveArticle(article);
-
 
 		return "admin";
 	}
