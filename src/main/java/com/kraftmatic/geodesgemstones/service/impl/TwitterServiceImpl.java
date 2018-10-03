@@ -5,15 +5,13 @@ import com.kraftmatic.geodesgemstones.service.TwitterService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import twitter4j.StatusUpdate;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
+import twitter4j.*;
 import twitter4j.auth.AccessToken;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class TwitterServiceImpl implements TwitterService{
@@ -43,8 +41,14 @@ public class TwitterServiceImpl implements TwitterService{
     }
 
     @Override
-    public void readTweets() {
-
+    public List<Status> readTweets() {
+        List<Status> tweets = null;
+        try {
+            tweets = twitter.timelines().getHomeTimeline();
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
+        return tweets;
     }
 
     private File convert(MultipartFile file) throws IOException
