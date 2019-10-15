@@ -20,7 +20,7 @@
     <!-- Custom styles for this template -->
     <link href="css/business-casual.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/login.css" th:href="@{/css/main.css}" />
-    <link rel="stylesheet" href="/css/login.css" th:href="@{/css/blog.css}" />
+    <link rel="stylesheet" href="/css/blog.css" th:href="@{/css/blog.css}" />
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
@@ -31,6 +31,8 @@
 
 <body>
 
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v4.0"></script>
 <div class="tagline-upper text-center text-heading text-shadow text-white mt-5 d-none d-lg-block">Geodes and Gemstones</div>
 <div class="tagline-lower text-center text-expanded text-shadow text-uppercase text-white mb-5 d-none d-lg-block">We can help you get totally stoned!</div>
 
@@ -49,7 +51,7 @@
                 <a class="nav-link text-uppercase text-expanded" href="/database">Photos</a>
             </li>
             <li class="nav-item active px-lg-4">
-                <a class="nav-link text-uppercase text-expanded" href="/blog">Events<span class="sr-only">(current)</span><</a>
+                <a class="nav-link text-uppercase text-expanded" href="/blog">Events<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item px-lg-4">
                 <a class="nav-link text-uppercase text-expanded" href="/contact">Contact</a>
@@ -59,9 +61,7 @@
 </nav>
 
 <div class="container">
-    <div class="calendar">
-    <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fgeodesandgemstones%2Fposts%2F920613008035160&width=500" width="500" height="217" style="border:none;" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
-    </div>
+    <div class="fb-page events" data-href="https://www.facebook.com/geodesandgemstones/" data-tabs="events" data-width="500" data-height="" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/geodesandgemstones/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/geodesandgemstones/">Geodes &amp; Gemstones</a></blockquote></div>
 
     <div class="row text-center text-lg-left center" style="display: inline">
         <div th:each="tweet : ${tweets}">

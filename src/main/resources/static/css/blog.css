@@ -16,3 +16,16 @@
     margin: 0 auto;
     text-align: center;
 }
+
+.container {
+    display: block;
+    text-align: center;
+    padding: 20px;
+}
+
+.events {
+    padding: 30px;
+    background-color: darkgrey;
+    border: black;
+    border-style: solid;
+}
