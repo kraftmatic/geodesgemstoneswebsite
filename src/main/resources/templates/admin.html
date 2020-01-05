@@ -36,36 +36,10 @@
 
         <div id="tabs">
             <ul>
-                <li><a href="#tabs-1">Submit Article</a></li>
-                <li><a href="#tabs-2">Submit Photo</a></li>
+                <li><a href="#tabs-1">Submit Photo</a></li>
+                <li><a href="#tabs-2">Submit Article</a></li>
             </ul>
             <div id="tabs-1">
-                <form action="#" th:action="@{/admin/submitArticle}" th:object="${article}" method="post" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="socialInputFile">Image File</label>
-                        <input type="file" id="socialInputFile" th:field="*{image}">
-                        <span  class="help-block">Maximum image size is 1 megabyte</span>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon">Submitter</span>
-                        <input type="text" class="form-control" placeholder="Name" th:field="*{submitter}">
-                    </div>
-                    <br />
-                    <div class="input-group">
-                        <span class="input-group-addon">Message</span>
-                        <textarea rows="4" class="form-control" placeholder="Add text here" th:field="*{content}" />
-                    </div>
-                    <br />
-                    <div class="input-group">
-                        <span class="input-group-addon">Link</span>
-                        <input type="text" class="form-control" th:field="*{url}">
-                    </div>
-                    <span id="helpBlock2" class="help-block">An optional url if you want to use this article to share a link.</span>
-                    <br />
-                    <p><input class="btn btn-primary btn-lg" type="submit" value="Submit" /> <input class="btn btn-danger btn-lg" type="reset" value="Reset" /></p>
-                </form>
-            </div>
-            <div id="tabs-2">
                 <form action="#" th:action="@{/admin/submitPhoto}" th:object="${photoSubmit}" method="post" enctype="multipart/form-data">
 
                     <div class="form-group">
@@ -98,6 +72,32 @@
                         <span class="input-group-addon">Comment</span>
                         <input type="text" class="form-control" placeholder="Required" th:field="*{comment}">
                     </div>
+                    <br />
+                    <p><input class="btn btn-primary btn-lg" type="submit" value="Submit" /> <input class="btn btn-danger btn-lg" type="reset" value="Reset" /></p>
+                </form>
+            </div>
+            <div id="tabs-2">
+                <form action="#" th:action="@{/admin/submitArticle}" th:object="${article}" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="socialInputFile">Image File</label>
+                        <input type="file" id="socialInputFile" th:field="*{image}">
+                        <span  class="help-block">Maximum image size is 1 megabyte</span>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">Submitter</span>
+                        <input type="text" class="form-control" placeholder="Name" th:field="*{submitter}">
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon">Message</span>
+                        <textarea rows="4" class="form-control" placeholder="Add text here" th:field="*{content}" />
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon">Link</span>
+                        <input type="text" class="form-control" th:field="*{url}">
+                    </div>
+                    <span id="helpBlock2" class="help-block">An optional url if you want to use this article to share a link.</span>
                     <br />
                     <p><input class="btn btn-primary btn-lg" type="submit" value="Submit" /> <input class="btn btn-danger btn-lg" type="reset" value="Reset" /></p>
                 </form>
