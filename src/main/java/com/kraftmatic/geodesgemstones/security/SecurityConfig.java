@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 
 @EnableWebSecurity
@@ -24,11 +25,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 			.authorizeRequests()
 				.antMatchers("/css/**", "/index").permitAll()		
-				.antMatchers("/admin/**").hasRole("ADMIN")
+				.antMatchers("/user/**", "/admin", "/delete").hasRole("ADMIN")
 				.and()
 			.formLogin()
-				.loginPage("/login").failureUrl("/login-error");	
-	}
+				.loginPage("/login").failureUrl("/login-error")
+                .and()
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/index").deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true);
+    }
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {

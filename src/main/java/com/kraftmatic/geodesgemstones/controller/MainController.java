@@ -1,6 +1,7 @@
 package com.kraftmatic.geodesgemstones.controller;
 
 import com.itextpdf.text.DocumentException;
+import com.kraftmatic.geodesgemstones.database.PhotoRepository;
 import com.kraftmatic.geodesgemstones.models.Article;
 import com.kraftmatic.geodesgemstones.models.Photo;
 import com.kraftmatic.geodesgemstones.models.PhotoSubmission;
@@ -24,6 +25,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Controller
 public class MainController {
@@ -43,6 +48,9 @@ public class MainController {
 	@Autowired
 	private PDFGenerator pdfGenerator;
 
+	@Autowired
+    private PhotoRepository repository;
+
 	@RequestMapping("/")
 	public String root() {
 		return "redirect:/index";
@@ -57,14 +65,26 @@ public class MainController {
 
 	@RequestMapping("/admin")
 	public String userIndex(Model model) {
-			if (StringUtils.isBlank(tokenHolder.getAccessToken())){
+
+	    if (StringUtils.isBlank(tokenHolder.getAccessToken())){
 			return "redirect:" + "https://api.imgur.com/oauth2/authorize?client_id=cb6b427ede1ac44&response_type=token";
 		}
 
-		model.addAttribute("article", new Article());
 		model.addAttribute("photoSubmit", new PhotoSubmission());
+        List<Photo> photos = StreamSupport.stream(repository.findAll().spliterator(), false).sorted(Comparator.comparing(Photo::getName)).collect(Collectors.toList());
+        model.addAttribute("photos", photos);
 		return "admin";
 	}
+
+	@RequestMapping("/delete")
+    public String deleteDatabaseEntry(Model model){
+
+        model.addAttribute("photoSubmit", new PhotoSubmission());
+        List<Photo> photos = StreamSupport.stream(repository.findAll().spliterator(), false).sorted(Comparator.comparing(Photo::getName)).collect(Collectors.toList());
+        model.addAttribute("photos", photos);
+
+	    return "admin";
+    }
 
 	@RequestMapping("/user/index/token")
 	public String userIndexToken(Model model,
@@ -82,23 +102,6 @@ public class MainController {
 		return "token-capture";
     	}
 
-
-	@RequestMapping(path = "admin/submitArticle", method = RequestMethod.POST)
-	public String articleSubmit(@ModelAttribute("article") Article article){
-
-        try {
-            if (article.getImage() == null) {
-                twitterService.postTweet(article.getContent());
-            } else {
-                twitterService.postImage(article);
-            }
-        } catch (TwitterException | IOException e) {
-            e.printStackTrace();
-        }
-        articleService.saveArticle(article);
-
-		return "admin";
-	}
 
 	@RequestMapping(path = "admin/submitPhoto", method = RequestMethod.POST)
 	public String photoSubmit( @ModelAttribute("photoSubmit")PhotoSubmission photoSubmit, Model model){
@@ -124,12 +127,7 @@ public class MainController {
 	 *  Login Methods
 	 */
 
-	@RequestMapping(value = "/login")
-	public String login() {
-		return "login";
-	}
-
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String postLogin() {
 		// TODO Enable form login with Spring Security (trigger error for now)
 		return "redirect:/login-error";
