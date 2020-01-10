@@ -66,9 +66,9 @@ public class MainController {
 	@RequestMapping("/admin")
 	public String userIndex(Model model) {
 
-	    if (StringUtils.isBlank(tokenHolder.getAccessToken())){
-			return "redirect:" + "https://api.imgur.com/oauth2/authorize?client_id=cb6b427ede1ac44&response_type=token";
-		}
+//	    if (StringUtils.isBlank(tokenHolder.getAccessToken())){
+//			return "redirect:" + "https://api.imgur.com/oauth2/authorize?client_id=cb6b427ede1ac44&response_type=token";
+//		}
 
 		model.addAttribute("photoSubmit", new PhotoSubmission());
         List<Photo> photos = StreamSupport.stream(repository.findAll().spliterator(), false).sorted(Comparator.comparing(Photo::getName)).collect(Collectors.toList());
@@ -77,7 +77,11 @@ public class MainController {
 	}
 
 	@RequestMapping("/delete")
-    public String deleteDatabaseEntry(Model model){
+    public String deleteDatabaseEntry(Model model, @RequestParam("id") long id){
+
+	    repository.delete(id);
+	    model.addAttribute("deleteSuccess", true);
+
 
         model.addAttribute("photoSubmit", new PhotoSubmission());
         List<Photo> photos = StreamSupport.stream(repository.findAll().spliterator(), false).sorted(Comparator.comparing(Photo::getName)).collect(Collectors.toList());

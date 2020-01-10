@@ -93,3 +93,11 @@ hr.divider {
     border-width: 1px;
     border-color: gray;
 }
+.admin-row {
+    border-style: solid;
+    border-width: 1px;
+    padding: 5px;
+    width: 400px;
+    float: left;
+    margin: 5px;
+}

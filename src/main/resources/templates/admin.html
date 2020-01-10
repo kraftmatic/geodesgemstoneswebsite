@@ -4,6 +4,8 @@
         <title>Admin Panel</title>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link href="css/business-casual.css" rel="stylesheet">
+        <link rel="stylesheet" href="/css/login.css" th:href="@{/css/main.css}" />
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <script>
@@ -29,11 +31,12 @@
             </div>
             <div class="panel-body">
                 Administration panel for Geodes and Gemstones
-                <a class="btn" href="/logout">logout></a>
+                <a href="/logout"><div class="btn btn-danger" style="float: right;">logout</div></a>
             </div>
         </div>
 
         <div th:if="${submitSuccess}" class="alert alert-success" role="alert">Photo Submission Successful!</div>
+        <div th:if="${deleteSuccess}" class="alert alert-success" role="alert">Database delete Successful!</div>
 
         <div id="tabs">
             <ul>
@@ -79,13 +82,20 @@
             </div>
             <div id="tabs-2">
 
-
-                <div th:each="photo : ${photos}" class="col-lg-3 col-md-4 col-xs-6">
-
-                        <h4 th:text="${photo.name}" class="auto-margin"></h4>
+            <div class="container">
+                <div th:each="photo : ${photos}">
+                    <div class="admin-row">
+                        <img style="height: 50px" th:src="${photo.url}" alt="">
+                        <span th:text="${photo.name}"></span>
+                        <a th:href="@{'/delete?id=' + ${photo.id}}" type="button" class="btn btn-danger" style="margin: 10px 0px 0px 5px;float: right;" >
+                            Delete
+                        </a>
+                        <a href="#" type="button" class="btn btn-info" style="margin: 10px 0px 0px 5px;float: right;" disabled>
+                            Edit
+                        </a>
                     </div>
                 </div>
-
+            </div>
 
 
             </div>
