@@ -68,9 +68,9 @@ public class MainController {
 	@RequestMapping("/admin")
 	public String userIndex(Model model) {
 
-//	    if (StringUtils.isBlank(tokenHolder.getAccessToken())){
-//			return "redirect:" + "https://api.imgur.com/oauth2/authorize?client_id=cb6b427ede1ac44&response_type=token";
-//		}
+	    if (StringUtils.isBlank(tokenHolder.getAccessToken())){
+			return "redirect:" + "https://api.imgur.com/oauth2/authorize?client_id=cb6b427ede1ac44&response_type=token";
+		}
 
 		model.addAttribute("photoSubmit", new PhotoSubmission());
         List<Photo> photos = StreamSupport.stream(repository.findAll().spliterator(), false).sorted(Comparator.comparing(Photo::getName)).collect(Collectors.toList());
@@ -97,7 +97,7 @@ public class MainController {
                                  @RequestParam("access_token") String accessToken,
                                  @RequestParam("refresh_token") String refreshToken) {
 
-	captureTokens(accessToken, refreshToken);
+    	captureTokens(accessToken, refreshToken);
         model.addAttribute("article", new Article());
         model.addAttribute("photoSubmit", new PhotoSubmission());
         return "admin";
