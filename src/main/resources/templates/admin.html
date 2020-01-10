@@ -12,6 +12,19 @@
           $( function() {
             $( "#tabs" ).tabs();
           } );
+
+          $(document).ready(
+              function(){
+                  $('input:file').change(
+                      function(){
+                          if ($(this).val()) {
+                              $('input:submit').attr('disabled',false);
+                              // or, as has been pointed out elsewhere:
+                              // $('input:submit').removeAttr('disabled');
+                          }
+                      }
+                  );
+              });
           </script>
 
         <!-- Latest compiled and minified CSS -->
@@ -77,7 +90,7 @@
                         <textarea type="text" class="form-control" placeholder="Required" th:field="*{comment}"></textarea>
                     </div>
                     <br />
-                    <p><input class="btn btn-primary btn-lg" type="submit" value="Submit" /> <input class="btn btn-danger btn-lg" type="reset" value="Reset" /></p>
+                    <p><input class="btn btn-primary btn-lg" type="submit" value="Submit" disabled /> <input class="btn btn-danger btn-lg" type="reset" value="Reset" /></p>
                 </form>
             </div>
             <div id="tabs-2">
