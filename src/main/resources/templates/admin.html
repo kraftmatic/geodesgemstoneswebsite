@@ -4,8 +4,8 @@
         <title>Admin Panel</title>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <link href="css/business-casual.css" rel="stylesheet">
-        <link rel="stylesheet" href="/css/login.css" th:href="@{/css/main.css}" />
+        <link rel="stylesheet" type="text/css" href="/css/business-casual.css" th:href="@{/css/business-casual.css}">
+        <link rel="stylesheet" type="text/css" href="/css/login.css" th:href="@{/css/main.css}">
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <script>
@@ -41,7 +41,7 @@
         <div id="tabs">
             <ul>
                 <li><a href="#tabs-1">Submit Photo</a></li>
-                <li><a href="#tabs-2">Delete Entry</a></li>
+                <li><a href="#tabs-2">Edit Database</a></li>
             </ul>
             <div id="tabs-1">
                 <form action="#" th:action="@{/admin/submitPhoto}" th:object="${photoSubmit}" method="post" enctype="multipart/form-data">
@@ -74,7 +74,7 @@
                     <br />
                     <div class="input-group">
                         <span class="input-group-addon">Comment</span>
-                        <input type="text" class="form-control" placeholder="Required" th:field="*{comment}">
+                        <textarea type="text" class="form-control" placeholder="Required" th:field="*{comment}"></textarea>
                     </div>
                     <br />
                     <p><input class="btn btn-primary btn-lg" type="submit" value="Submit" /> <input class="btn btn-danger btn-lg" type="reset" value="Reset" /></p>
@@ -84,13 +84,34 @@
 
             <div class="container">
                 <div th:each="photo : ${photos}">
+                    <!-- Modal -->
+                    <div class="modal fade" th:id="modal-delete+${photo.id}" tabindex="-1" >
+                        <div class="modal-dialog" >
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">DELETE WARNING</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure you want to delete <span th:text="${photo.name}">ENTRY</span>?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <a th:href="@{'/delete?id=' + ${photo.id}}" type="button" class="btn btn-danger">DELETE</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="admin-row">
                         <img style="height: 50px" th:src="${photo.url}" alt="">
                         <span th:text="${photo.name}"></span>
-                        <a th:href="@{'/delete?id=' + ${photo.id}}" type="button" class="btn btn-danger" style="margin: 10px 0px 0px 5px;float: right;" >
+                        <button type="button" class="btn btn-danger" data-toggle="modal" th:attr="data-target='#modal-delete'+${photo.id}" style="margin: 10px 0px 0px 5px;float: right;" >
                             Delete
-                        </a>
-                        <a href="#" type="button" class="btn btn-info" style="margin: 10px 0px 0px 5px;float: right;" disabled>
+                        </button>
+                        <a th:href="@{'/admin/editPhoto?id=' + ${photo.id}}" type="button" class="btn btn-info" style="margin: 10px 0px 0px 5px;float: right;" >
                             Edit
                         </a>
                     </div>

@@ -13,7 +13,7 @@
             <div class="card card-container">
                 <img id="profile-img" class="profile-img-card" src="http://2.bp.blogspot.com/-9tkWnM_O-vY/VR67ijUs6kI/AAAAAAAABSQ/gsOqw2XTqos/s1600/gems%282%29.png" />
                 <p id="profile-name" class="profile-name-card"></p>
-                <p th:if="${loginError}" class="error">Wrong user or password</p>
+                <p th:if="${loginError}" class="error">Admin Login</p>
                 <form th:action="@{/login}" method="post">
                     <span id="reauth-email" class="reauth-email"></span>
                     <input type="text" class="max-width" id="username" name="username" placeholder="Username" autofocus="autofocus" >

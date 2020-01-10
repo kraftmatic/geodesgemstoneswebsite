@@ -3,12 +3,18 @@ package com.kraftmatic.geodesgemstones.service.impl;
 import com.kraftmatic.geodesgemstones.database.PhotoRepository;
 import com.kraftmatic.geodesgemstones.models.Photo;
 import com.kraftmatic.geodesgemstones.models.PhotoSubmission;
+import com.kraftmatic.geodesgemstones.models.PhotoUpdate;
 import com.kraftmatic.geodesgemstones.service.ImageService;
+import com.kraftmatic.geodesgemstones.util.PhotoProviderDomainConverter;
 import com.kraftmatic.geodesgemstones.util.TokenHolder;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -53,6 +59,12 @@ public class ImageServiceImpl implements ImageService{
         Photo photo = processPhotoInformation(photoSubmit, object);
         repository.save(photo);
 
+    }
+
+    @Override
+    public void updateEntry(PhotoUpdate photoUpdate) {
+        Photo photo = PhotoProviderDomainConverter.convertPhotoToDomain(photoUpdate);
+        repository.save(photo);
     }
 
     @Override

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Panel</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="/css/business-casual.css" th:href="@{/css/business-casual.css}">
+    <link rel="stylesheet" type="text/css" href="/css/login.css" th:href="@{/css/main.css}">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $( function() {
+            $( "#tabs" ).tabs();
+        } );
+    </script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container theme-showcase">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Geodes and Gemstones</h3>
+        </div>
+        <div class="panel-body">
+            Administration panel for Geodes and Gemstones
+            <a href="/logout"><div class="btn btn-danger" style="float: right;">logout</div></a>
+        </div>
+    </div>
+
+        <div class="ui-tabs ui-corner-all ui-widget ui-widget-content">
+            <form style="padding: 30px;" action="#" th:action="@{/admin/updatePhoto}" th:object="${photoUpdate}" method="post" enctype="multipart/form-data">
+
+                <input type="hidden" class="form-control" th:field="*{id}">
+                <div class="input-group">
+                    <span class="input-group-addon">Image Link</span>
+                    <input type="text" class="form-control"  placeholder="Required" th:field="*{link}">
+                </div>
+                <br />
+                <div class="input-group">
+                    <span class="input-group-addon">Name</span>
+                    <input type="text" class="form-control"  placeholder="Required" th:field="*{name}">
+                </div>
+                <br />
+                <div class="input-group">
+                    <span class="input-group-addon">Category</span>
+                    <input type="text" class="form-control"  th:field="*{category}">
+                </div>
+                <br />
+                <div class="input-group">
+                    <span class="input-group-addon">Region</span>
+                    <input type="text" class="form-control" th:field="*{region}" >
+                </div>
+                <br />
+                <div class="input-group">
+                    <span class="input-group-addon">Color</span>
+                    <input type="text" class="form-control" th:field="*{color}" >
+                </div>
+                <br />
+                <div class="input-group">
+                    <span class="input-group-addon">Comment</span>
+                    <textarea type="text" class="form-control" placeholder="Required" th:field="*{comment}"></textarea>
+                </div>
+                <br />
+                <p><input class="btn btn-primary" type="submit" value="Submit" /> <a href="/admin" class="btn btn-danger" style="color: white;">Cancel</a></p>
+            </form>
+        </div>
+</div>
+</body>
+</html>

@@ -5,10 +5,12 @@ import com.kraftmatic.geodesgemstones.database.PhotoRepository;
 import com.kraftmatic.geodesgemstones.models.Article;
 import com.kraftmatic.geodesgemstones.models.Photo;
 import com.kraftmatic.geodesgemstones.models.PhotoSubmission;
+import com.kraftmatic.geodesgemstones.models.PhotoUpdate;
 import com.kraftmatic.geodesgemstones.service.ArticleService;
 import com.kraftmatic.geodesgemstones.service.ImageService;
 import com.kraftmatic.geodesgemstones.service.PDFGenerator;
 import com.kraftmatic.geodesgemstones.service.TwitterService;
+import com.kraftmatic.geodesgemstones.util.PhotoProviderDomainConverter;
 import com.kraftmatic.geodesgemstones.util.TokenHolder;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.io.IOUtils;
@@ -115,12 +117,30 @@ public class MainController {
 		} catch (IOException e) {
             model.addAttribute("submitSuccess", false);
 		}
-        model.addAttribute("article", new Article());
         model.addAttribute("photoSubmit", new PhotoSubmission());
+        List<Photo> photos = StreamSupport.stream(repository.findAll().spliterator(), false).sorted(Comparator.comparing(Photo::getName)).collect(Collectors.toList());
+        model.addAttribute("photos", photos);
         return "admin";
-	}
+    }
 
-	private void captureTokens(String accessToken, String refreshToken) {
+    @RequestMapping(path = "admin/editPhoto", method = RequestMethod.GET)
+    public String photoEdit(Model model, @RequestParam("id") long id){
+	    model.addAttribute("photoUpdate", PhotoProviderDomainConverter.convertPhotoToProvider(repository.findOne(id)));
+	    return "edit";
+    }
+
+    @RequestMapping(path = "admin/updatePhoto", method = RequestMethod.POST)
+    public String photoUpdate(@ModelAttribute("photoUpdate") PhotoUpdate photoSubmit, Model model){
+
+	    imageService.updateEntry(photoSubmit);
+
+        model.addAttribute("photoSubmit", new PhotoSubmission());
+        List<Photo> photos = StreamSupport.stream(repository.findAll().spliterator(), false).sorted(Comparator.comparing(Photo::getName)).collect(Collectors.toList());
+        model.addAttribute("photos", photos);
+        return "admin";
+    }
+
+    private void captureTokens(String accessToken, String refreshToken) {
 		if (StringUtils.isNotBlank(accessToken) || StringUtils.isNotBlank(refreshToken)){
 			tokenHolder.setAccessToken(accessToken);
 			tokenHolder.setRefreshToken(refreshToken);
