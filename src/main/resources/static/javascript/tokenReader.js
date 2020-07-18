@@ -6,4 +6,4 @@ while (m = regex.exec(queryString)) {
 }
 
 // Send parsed tokens back to server
-window.open('http://gemstones.angrycrayfish.com/user/index/token?' + queryString,'_self')
+window.open('http://3.14.81.80:8080/user/index/token?' + queryString,'_self')
