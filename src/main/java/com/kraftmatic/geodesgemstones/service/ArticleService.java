@@ -1,6 +1,7 @@
 package com.kraftmatic.geodesgemstones.service;
 
 import com.kraftmatic.geodesgemstones.models.Article;
+import com.kraftmatic.geodesgemstones.models.Announcement;
 
 import java.util.List;
 
@@ -13,4 +14,6 @@ public interface ArticleService {
     );
 
     public List<Article> retrieveLast10Articles();
+    public List<Announcement> retrieveAnnouncements();
+
 }
