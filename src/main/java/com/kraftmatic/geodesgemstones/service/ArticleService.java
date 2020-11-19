@@ -10,10 +10,9 @@ import java.util.List;
  */
 public interface ArticleService {
 
-    public void saveArticle(Article article
-    );
-
-    public List<Article> retrieveLast10Articles();
-    public List<Announcement> retrieveAnnouncements();
+    void saveArticle(Article article);
+    void saveAnnoucnement(Announcement announcement);
+    List<Article> retrieveLast10Articles();
+    List<Announcement> retrieveAnnouncements();
 
 }

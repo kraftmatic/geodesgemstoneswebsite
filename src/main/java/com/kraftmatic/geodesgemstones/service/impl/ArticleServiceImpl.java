@@ -28,12 +28,17 @@ public class ArticleServiceImpl implements ArticleService{
     }
 
     @Override
+    public void saveAnnoucnement(Announcement announcement) {
+        announcementRepository.save(announcement);
+    }
+
+    @Override
     public List<Article> retrieveLast10Articles() {
         return articleRepository.findTop10BySubmitter("test");
     }
 
     @Override
     public List<Announcement> retrieveAnnouncements() {
-        return null; 
+        return (List<Announcement>) announcementRepository.findAll();
     };
 }

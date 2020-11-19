@@ -1,11 +1,9 @@
 package com.kraftmatic.geodesgemstones.controller;
 
 import com.itextpdf.text.DocumentException;
+import com.kraftmatic.geodesgemstones.database.AnnouncementRepository;
 import com.kraftmatic.geodesgemstones.database.PhotoRepository;
-import com.kraftmatic.geodesgemstones.models.Article;
-import com.kraftmatic.geodesgemstones.models.Photo;
-import com.kraftmatic.geodesgemstones.models.PhotoSubmission;
-import com.kraftmatic.geodesgemstones.models.PhotoUpdate;
+import com.kraftmatic.geodesgemstones.models.*;
 import com.kraftmatic.geodesgemstones.service.ArticleService;
 import com.kraftmatic.geodesgemstones.service.ImageService;
 import com.kraftmatic.geodesgemstones.service.PDFGenerator;
@@ -53,6 +51,9 @@ public class MainController {
 	@Autowired
     private PhotoRepository repository;
 
+	@Autowired
+	private AnnouncementRepository announcementRepository;
+
 	@RequestMapping("/")
 	public String root() {
 		return "redirect:/index";
@@ -61,20 +62,23 @@ public class MainController {
 	@RequestMapping(path = "/index", method = RequestMethod.GET)
 	public String index(Model model) {
 
-		model.addAttribute("articles", articleService.retrieveLast10Articles());
+		model.addAttribute("announcements", articleService.retrieveAnnouncements());
 		return "index";
 	}
 
 	@RequestMapping("/admin")
 	public String userIndex(Model model) {
 
-	    if (StringUtils.isBlank(tokenHolder.getAccessToken())){
-			return "redirect:" + "https://api.imgur.com/oauth2/authorize?client_id=cb6b427ede1ac44&response_type=token";
-		}
+//	    if (StringUtils.isBlank(tokenHolder.getAccessToken())){
+//			return "redirect:" + "https://api.imgur.com/oauth2/authorize?client_id=cb6b427ede1ac44&response_type=token";
+//		}
 
 		model.addAttribute("photoSubmit", new PhotoSubmission());
+        model.addAttribute("announcementSubmit", new Announcement());
         List<Photo> photos = StreamSupport.stream(repository.findAll().spliterator(), false).sorted(Comparator.comparing(Photo::getName)).collect(Collectors.toList());
         model.addAttribute("photos", photos);
+		model.addAttribute("announcements", articleService.retrieveAnnouncements());
+
 		return "admin";
 	}
 
@@ -84,14 +88,27 @@ public class MainController {
 	    repository.delete(id);
 	    model.addAttribute("deleteSuccess", true);
 
-
+		model.addAttribute("announcementSubmit", new Announcement());
         model.addAttribute("photoSubmit", new PhotoSubmission());
         List<Photo> photos = StreamSupport.stream(repository.findAll().spliterator(), false).sorted(Comparator.comparing(Photo::getName)).collect(Collectors.toList());
         model.addAttribute("photos", photos);
-
+		model.addAttribute("announcements", articleService.retrieveAnnouncements());
 	    return "admin";
     }
 
+	@RequestMapping("/deleteAnnouncement")
+	public String deleteAnnouncement(Model model, @RequestParam("id") long id){
+
+		announcementRepository.delete(id);
+		model.addAttribute("deleteSuccess", true);
+		model.addAttribute("announcementSubmit", new Announcement());
+		model.addAttribute("photoSubmit", new PhotoSubmission());
+		List<Photo> photos = StreamSupport.stream(repository.findAll().spliterator(), false).sorted(Comparator.comparing(Photo::getName)).collect(Collectors.toList());
+		model.addAttribute("photos", photos);
+
+		model.addAttribute("announcements", articleService.retrieveAnnouncements());
+		return "admin";
+	}
 	@RequestMapping("/user/index/token")
 	public String userIndexToken(Model model,
                                  @RequestParam("access_token") String accessToken,
@@ -117,11 +134,25 @@ public class MainController {
 		} catch (IOException e) {
             model.addAttribute("submitSuccess", false);
 		}
-        model.addAttribute("photoSubmit", new PhotoSubmission());
-        List<Photo> photos = StreamSupport.stream(repository.findAll().spliterator(), false).sorted(Comparator.comparing(Photo::getName)).collect(Collectors.toList());
-        model.addAttribute("photos", photos);
+		model.addAttribute("photoSubmit", new PhotoSubmission());
+		List<Photo> photos = StreamSupport.stream(repository.findAll().spliterator(), false).sorted(Comparator.comparing(Photo::getName)).collect(Collectors.toList());
+		model.addAttribute("photos", photos);
+		model.addAttribute("announcements", articleService.retrieveAnnouncements());
+		model.addAttribute("announcementSubmit", new Announcement());
         return "admin";
     }
+
+	@RequestMapping(path = "admin/submitAnnouncement", method = RequestMethod.POST)
+	public String announcementSubmit( @ModelAttribute("announcementSubmit")Announcement announcementSubmit, Model model){
+		articleService.saveAnnoucnement(announcementSubmit);
+		model.addAttribute("photoSubmit", new PhotoSubmission());
+		List<Photo> photos = StreamSupport.stream(repository.findAll().spliterator(), false).sorted(Comparator.comparing(Photo::getName)).collect(Collectors.toList());
+		model.addAttribute("photos", photos);
+		model.addAttribute("announcements", articleService.retrieveAnnouncements());
+		model.addAttribute("announcementSubmit", new Announcement());
+		return "admin";
+	}
+
 
     @RequestMapping(path = "admin/editPhoto", method = RequestMethod.GET)
     public String photoEdit(Model model, @RequestParam("id") long id){
@@ -137,6 +168,7 @@ public class MainController {
         model.addAttribute("photoSubmit", new PhotoSubmission());
         List<Photo> photos = StreamSupport.stream(repository.findAll().spliterator(), false).sorted(Comparator.comparing(Photo::getName)).collect(Collectors.toList());
         model.addAttribute("photos", photos);
+		model.addAttribute("announcementSubmit", new Announcement());
         return "admin";
     }
 

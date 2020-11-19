@@ -16,6 +16,14 @@ public class Announcement{
     @Column(nullable = false, name = "announcement")
     private String announcement;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getAnnouncement(){
 	    return announcement;
     }
