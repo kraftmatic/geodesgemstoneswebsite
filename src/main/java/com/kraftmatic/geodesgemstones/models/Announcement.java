@@ -16,6 +16,17 @@ public class Announcement{
     @Column(nullable = false, name = "announcement")
     private String announcement;
 
+    @Column(nullable = false, name = "style")
+    private String style;
+
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
+    }
+
     public Long getId() {
         return id;
     }

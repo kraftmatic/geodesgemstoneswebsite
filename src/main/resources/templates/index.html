@@ -30,7 +30,7 @@
 <body>
 
 <div class="d-none d-lg-block"><img class="logo" src="img/logo.png" /></div>
-<div th:each="announcement : ${announcements}" class="alert alert-danger alert-dismissible show" role="alert">
+<div th:each="announcement : ${announcements}" th:class="${announcement.style}" role="alert">
     <span th:text="${announcement.announcement}"></span>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>

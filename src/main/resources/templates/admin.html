@@ -60,10 +60,27 @@
             <div id="tabs-3">
                 <form action="#" th:action="@{/admin/submitAnnouncement}" th:object="${announcementSubmit}" method="post">
                     <div class="input-group">
-                        <span class="input-group-addon">Name</span>
+                        <span class="input-group-addon">Message</span>
                         <input type="text" class="form-control"  placeholder="Required" th:field="*{announcement}">
                     </div>
-                    <p><input class="btn btn-primary btn-lg" type="submit" value="Submit" /> </p>
+                    <p>
+                    <div style="display: -webkit-box">
+                        <div class="alert alert-danger">
+                            <input type="radio" id="male" th:field="*{style}" value="alert alert-danger alert-dismissible show" checked="checked">
+                            <label for="male"></label><br>
+                        </div>
+                        <div class="alert alert-success">
+                            <input type="radio" id="female" th:field="*{style}" value="alert alert-success alert-dismissible show">
+                            <label for="female"></label><br>
+                        </div>
+                        <div class="alert alert-warning">
+                            <input type="radio" id="other" th:field="*{style}" value="alert alert-warning alert-dismissible show">
+                            <label for="other"></label>
+                        </div>
+                    </div>
+
+                        <input class="btn btn-primary btn-lg" type="submit" value="Submit" />
+                    </p>
                 </form>
                 <div class="container">
                     <div th:each="announcement : ${announcements}">
@@ -88,7 +105,7 @@
                             </div>
                         </div>
 
-                        <div class="admin-row">
+                        <div th:class="'admin-row ' + ${announcement.style}">
                             <span th:text="${announcement.announcement}"></span>
                             <button type="button" class="btn btn-danger" data-toggle="modal" th:attr="data-target='#modal-announcement-delete'+${announcement.id}" style="margin: 10px 0px 0px 5px;float: right;" >
                                 Delete
