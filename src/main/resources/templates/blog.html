@@ -64,18 +64,6 @@
 <div class="container">
     <div class="fb-page events" data-href="https://www.facebook.com/geodesandgemstones/" data-tabs="events" data-width="500" data-height="" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/geodesandgemstones/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/geodesandgemstones/">Geodes &amp; Gemstones</a></blockquote></div>
 
-    <div class="row text-center text-lg-left center" style="display: inline">
-        <div th:each="tweet : ${tweets}">
-            <a th:href="${tweet.getUser().getURLEntity().getText()}">
-            <div class="blogpost">
-                <div><h6 th:text="${tweet.getCreatedAt()}"></h6></div>
-                <h4 th:text="${tweet.getText()}" class="auto-margin"></h4>
-            </div>
-            </a>
-        </div>
-
-    </div>
-
 </div>
 
 
